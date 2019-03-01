@@ -12,6 +12,10 @@ class TextInput extends Component {
     backgroundColor: "transparent",
     boxShadow: "none"
   }
+
+  componentDidMount = () => {
+    // console.dir(this.props)
+  }
   
   onChange = (e) => {
     this.setState({
@@ -27,7 +31,7 @@ class TextInput extends Component {
 
   onFocusOut = (e) => {
     // Should update App's state when onBlur
-    this.props.savefn(this.state.inputValue)
+    this.props.savefn(this.state.inputValue, this.props.idx)
     this.setState({
       focused: false
     })

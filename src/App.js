@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   addToDoList = (workName) => {
-    const todolist = {
+    let todolist = {
       name: workName ? workName : 'new list',
       items: [] // [todolistitems]
     }
@@ -33,8 +33,20 @@ class App extends Component {
     }
   }
 
-  updateToDoList = () => {
-
+  updateToDoList = (workName, idx) => {
+    
+    if (workName !== this.state.todolists[idx].name) {
+      let todolist = {
+        name: workName,
+        items: [...this.state.todolists[idx].items] // [todolistitems]
+      }
+      let newTodolist = Object.assign({},this.state)
+      newTodolist.todolists.splice(idx,1,todolist)
+      this.setState({
+        todolists: [...newTodolist.todolists],
+        focusedIdx: idx
+      })
+    }
   }
 
   addToDoListItem = () => {
@@ -62,7 +74,7 @@ class App extends Component {
                   <TodoItems
                     list={this.state.todolists}
                     addfn={this.addToDoList}
-                    updatefn={()=>{}}
+                    updatefn={this.updateToDoList}
                   />
                 </Columns.Column>
                 <Columns.Column>

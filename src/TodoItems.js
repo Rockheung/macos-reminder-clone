@@ -13,6 +13,7 @@ const TodoItems = (props) => {
     <ul>
       {props.list.map((list,i) => (
         <TextInput
+          idx={i}
           key={i}
           workName={list.name}
           savefn={props.updatefn}
