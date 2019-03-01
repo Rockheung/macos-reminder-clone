@@ -17,6 +17,7 @@ const TodoItems = (props) => {
           key={i}
           workName={list.name}
           savefn={props.updatefn}
+          focusing={props.focusing}
         />
       ))}
       <TextInput

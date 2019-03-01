@@ -21,11 +21,11 @@ class App extends Component {
   }
 
   addToDoList = (workName) => {
-    let todolist = {
-      name: workName ? workName : 'new list',
-      items: [] // [todolistitems]
-    }
-    if (workName.length !==0) {
+    if (workName.length !== 0) {
+      let todolist = {
+        name: workName ? workName : 'new list',
+        items: [] // [todolistitems]
+      }
       this.setState({
         todolists: [...this.state.todolists, todolist],
         focusedIdx: this.state.todolists.length
@@ -34,26 +34,37 @@ class App extends Component {
   }
 
   updateToDoList = (workName, idx) => {
-    
+    this.changeFocusing(idx);
     if (workName !== this.state.todolists[idx].name) {
       let todolist = {
         name: workName,
         items: [...this.state.todolists[idx].items] // [todolistitems]
       }
-      let newTodolist = Object.assign({},this.state)
-      newTodolist.todolists.splice(idx,1,todolist)
-      this.setState({
-        todolists: [...newTodolist.todolists],
-        focusedIdx: idx
-      })
+      let newState = {...this.state}
+      newState.todolists.splice(idx,1,todolist)
+      this.setState({...newState})
     }
   }
 
-  addToDoListItem = () => {
-    const todolistitems ={
-      name: 'new item',
-      done: false
+  addToDoListItem = (listName) => {
+    let idx = this.state.focusedIdx;
+    if (idx < 0) {
+      alert("Hey, your todolist is empty!")
+    } else if (listName.length !== 0) {
+      let newState = {...this.state};
+      let todolistitems ={
+        name: listName ? listName : 'new item',
+        done: false
+      }
+      newState.todolists[idx].items.push(todolistitems)
+      this.setState({...newState})
     }
+  }
+
+  changeFocusing = (idx) => {
+    this.setState({
+      focusedIdx: idx
+    })
   }
 
   render() {
@@ -73,12 +84,20 @@ class App extends Component {
                   <p>ToDoLists</p>
                   <TodoItems
                     list={this.state.todolists}
+                    focusing={this.changeFocusing}
                     addfn={this.addToDoList}
                     updatefn={this.updateToDoList}
                   />
                 </Columns.Column>
                 <Columns.Column>
                   <h2>ToDoListItems</h2>
+                  <TodoItems
+                    list={ (this.state.focusedIdx>-1)
+                          ? this.state.todolists[this.state.focusedIdx].items
+                          : [] }
+                    addfn={this.addToDoListItem}
+                    updatefn={this.updateToDoListItem}
+                  />
                 </Columns.Column>
               </Columns>
             </Container>

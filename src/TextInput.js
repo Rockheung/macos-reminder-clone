@@ -24,6 +24,7 @@ class TextInput extends Component {
   }
 
   onFocusIn = (e) => {
+    this.props.focusing(this.props.idx)
     this.setState({
       focused: true
     })
