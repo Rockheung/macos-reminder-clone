@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   updateToDoList = (workName, idx) => {
-    this.changeFocusing(idx);
+    // this.changeFocusing(idx);
     if (workName !== this.state.todolists[idx].name) {
       let newState = {...this.state}
       newState.todolists[idx].name = workName
@@ -67,9 +67,10 @@ class App extends Component {
   }
 
   changeFocusing = (idx) => {
-    this.setState({
-      focusedIdx: idx
-    })
+    let newState = {...this.state}
+    newState.focusedIdx = idx;
+    console.log(this.state.todolists[idx])
+    this.setState({...newState})
   }
 
   render() {
