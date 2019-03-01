@@ -2,24 +2,35 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import 'react-bulma-components/dist/react-bulma-components.min.css';
+import { Columns } from 'react-bulma-components/full'
+
+import TodoItems from './TodoItems'
+import TextInput from './TextInput'
+
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      works: [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ]
+    }
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <Columns>
+          <Columns.Column size="two-thirds">
+            <TodoItems list={this.state.works} />
+          </Columns.Column>
+          <Columns.Column>
+            <TextInput />
+          </Columns.Column>
+        </Columns>
       </div>
     );
   }
