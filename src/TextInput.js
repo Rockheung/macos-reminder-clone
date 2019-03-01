@@ -4,12 +4,13 @@ import { Form } from 'react-bulma-components/full'
 class TextInput extends Component {
   state = {
     focused: false,
-    inputValue: ''
+    inputValue: this.props.workName ? this.props.workName : ''
   }
 
   pStyle = {
-    "borderColor": "transparent",
-    "boxShadow": "none"
+    borderColor: "transparent",
+    backgroundColor: "transparent",
+    boxShadow: "none"
   }
   
   onChange = (e) => {
@@ -26,9 +27,15 @@ class TextInput extends Component {
 
   onFocusOut = (e) => {
     // Should update App's state when onBlur
+    this.props.savefn(this.state.inputValue)
     this.setState({
       focused: false
     })
+    if (this.props.reset) {
+      this.setState({
+        inputValue: ''
+      })
+    }
   }
 
   render(){
@@ -40,7 +47,7 @@ class TextInput extends Component {
           onFocus={this.onFocusIn}
           onBlur={this.onFocusOut}
           value={this.state.inputValue}
-          placeholder="What U gonna do?"
+          placeholder="Sth to do"
         />
       </div>
     )

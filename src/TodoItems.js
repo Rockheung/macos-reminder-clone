@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import TextInput from './TextInput'
 
 const TodoItem = (props) => {
   return (
-    <li>{`todo ${props.work}`}</li>
+    <li>{`${props.work}`}</li>
   )
 }
 
@@ -10,9 +11,17 @@ const TodoItems = (props) => {
   
   return (
     <ul>
-      {props.list.map((str,i) => (
-        <TodoItem key={i} work={str} />
+      {props.list.map((list,i) => (
+        <TextInput
+          key={i}
+          workName={list.name}
+          savefn={props.updatefn}
+        />
       ))}
+      <TextInput
+        savefn={props.addfn}
+        reset
+      />
     </ul>
   )
 }
