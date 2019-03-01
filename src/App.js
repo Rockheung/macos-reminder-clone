@@ -36,12 +36,8 @@ class App extends Component {
   updateToDoList = (workName, idx) => {
     this.changeFocusing(idx);
     if (workName !== this.state.todolists[idx].name) {
-      let todolist = {
-        name: workName,
-        items: [...this.state.todolists[idx].items] // [todolistitems]
-      }
       let newState = {...this.state}
-      newState.todolists.splice(idx,1,todolist)
+      newState.todolists[idx].name = workName
       this.setState({...newState})
     }
   }
@@ -57,6 +53,15 @@ class App extends Component {
         done: false
       }
       newState.todolists[idx].items.push(todolistitems)
+      this.setState({...newState})
+    }
+  }
+
+  updateToDoListItem = (listName, idx) => {
+    let listIdx = this.state.focusedIdx;
+    if (listName !== this.state.todolists[listIdx].items[idx].name) {
+      let newState = {...this.state};
+      newState.todolists[listIdx].items[idx].name = listName
       this.setState({...newState})
     }
   }
