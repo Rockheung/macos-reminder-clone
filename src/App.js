@@ -41,7 +41,6 @@ class App extends Component {
       newState.todolists.splice(idx,1)
       this.setState({...newState})
     } else if (workName !== this.state.todolists[idx].name) {
-      console.log(workName)
       let newState = {...this.state}
       newState.todolists[idx].name = workName
       this.setState({...newState})
@@ -55,7 +54,7 @@ class App extends Component {
       console.log("Hey, your todolist is empty!")
     } else if (listName.length !== 0) {
       let newState = {...this.state};
-      let todolistitems ={
+      let todolistitems = {
         name: listName ? listName : 'new item',
         done: false
       }
@@ -83,7 +82,6 @@ class App extends Component {
   changeFocusing = (idx) => {
     let newState = {...this.state}
     newState.focusedIdx = idx;
-    console.log(this.state.todolists[idx])
     this.setState({...newState})
   }
 
@@ -102,7 +100,7 @@ class App extends Component {
                              alignItems:"unset"}}>
             <Container className="is-fullhd">
               <Columns style={{height: "80vh"}}>
-                <Columns.Column size="one-quarter">
+                <Columns.Column size="one-third">
                   <p>ToDoLists</p>
                   <TodoItems
                     list={this.state.todolists}

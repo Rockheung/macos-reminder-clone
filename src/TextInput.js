@@ -4,7 +4,8 @@ import { Form } from 'react-bulma-components/full'
 class TextInput extends Component {
   state = {
     focused: false,
-    inputValue: this.props.workName ? this.props.workName : ''
+    inputValue: this.props.workName ? this.props.workName : '',
+    done: false
   }
 
   pStyle = {
@@ -13,23 +14,38 @@ class TextInput extends Component {
     boxShadow: "none"
   }
 
+  doneStyle = {
+    fontStyle: "italic",
+    textDecorationLine: "line-through",
+    fontWeight: "100"
+  }
+
   componentDidMount = () => {
     // console.dir(this.props)
   }
   
   onChange = (e) => {
-    this.setState({
-      inputValue: e.target.value
-    })
+    if (!this.state.done) {
+      this.setState({
+        inputValue: e.target.value
+      })
+    }
   }
 
   onFocusIn = (e) => {
     if (this.props.focusing) {
       this.props.focusing(this.props.idx)
     }
-    
+    if (!this.state.done) {
+      this.setState({
+        focused: true
+      })
+    }
+  }
+
+  onDoubleClick = () => {
     this.setState({
-      focused: true
+      done: !this.state.done
     })
   }
 
@@ -46,15 +62,27 @@ class TextInput extends Component {
     }
   }
 
+  setStyle = () => {
+    let s = {}
+    if (this.state.done && !this.props.reset) {
+      Object.assign(s, this.doneStyle)
+    }
+    if (!this.state.focused) {
+      Object.assign(s, this.pStyle)
+    }
+    return s
+  }
+
   render(){
     return (
       <div>
         <Form.Input
           className={this.state.focused ? "has-background-white-ter" : ""}
-          style={ this.state.focused ? {} : this.pStyle }
+          style={this.setStyle()}
           onChange={this.onChange}
           onFocus={this.onFocusIn}
           onBlur={this.onFocusOut}
+          onDoubleClick={this.onDoubleClick}
           value={this.state.inputValue}
           placeholder="Add one ..."
         />
@@ -64,3 +92,8 @@ class TextInput extends Component {
 }
 
 export default TextInput
+
+
+/**/
+
+          
