@@ -20,8 +20,9 @@ const TodoItems = (props) => {
     <ul className="input-field">
       {props.list.map((list,i) => (
         <TextInput
-          idx={i}
           key={[list.name,i].join('#')}
+          idx={i}
+          done={list.done}
           workName={list.name}
           savefn={props.updatefn}
           focusing={props.focusing}

@@ -64,7 +64,7 @@ class App extends Component {
     // this.forceUpdate()
   }
 
-  updateToDoListItem = (listName, idx) => {
+  updateToDoListItem = (listName, idx, ...done) => {
     let listIdx = this.state.focusedIdx;
     if (listName === '') {
       let newState = {...this.state};
@@ -74,6 +74,11 @@ class App extends Component {
     else if (listName !== this.state.todolists[listIdx].items[idx].name) {
       let newState = {...this.state};
       newState.todolists[listIdx].items[idx].name = listName
+      this.setState({...newState})
+    }
+    if (done.length >0) {
+      let newState = {...this.state};
+      newState.todolists[listIdx].items[idx].done = done[0]
       this.setState({...newState})
     }
     // this.forceUpdate()
@@ -112,7 +117,7 @@ class App extends Component {
                 <Columns.Column>
                   <h2>ToDoListItems: { (this.state.focusedIdx !== null)
                     ? this.state.todolists[this.state.focusedIdx].name
-                    : '#'
+                    : 'Nothing to do! You\'re free!!'
                     }</h2>
                   <TodoItems
                     list={ (this.state.focusedIdx !== null)

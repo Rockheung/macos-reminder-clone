@@ -5,7 +5,7 @@ class TextInput extends Component {
   state = {
     focused: false,
     inputValue: this.props.workName ? this.props.workName : '',
-    done: false
+    done: this.props.done
   }
 
   pStyle = {
@@ -36,7 +36,7 @@ class TextInput extends Component {
     if (this.props.focusing) {
       this.props.focusing(this.props.idx)
     }
-    if (!this.state.done) {
+    if (!this.state.done ) {
       this.setState({
         focused: true
       })
@@ -44,9 +44,13 @@ class TextInput extends Component {
   }
 
   onDoubleClick = () => {
-    this.setState({
-      done: !this.state.done
-    })
+    if (!this.props.reset) {
+      this.props.savefn(this.state.inputValue, this.props.idx, !this.props.done)
+      this.setState({
+        done: !this.state.done,
+        focused: false
+      })
+    }    
   }
 
   onFocusOut = (e) => {
