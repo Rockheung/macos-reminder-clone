@@ -50,12 +50,13 @@ class TextInput extends Component {
     return (
       <div>
         <Form.Input
+          className={this.state.focused ? "has-background-white-ter" : ""}
           style={ this.state.focused ? {} : this.pStyle }
           onChange={this.onChange}
           onFocus={this.onFocusIn}
           onBlur={this.onFocusOut}
           value={this.state.inputValue}
-          placeholder="Sth to do"
+          placeholder="Add one ..."
         />
       </div>
     )

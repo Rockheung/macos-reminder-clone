@@ -17,7 +17,8 @@ class App extends Component {
   // state = this.props.init;
   state = {
     todolists: [], // [todolist]
-    focusedIdx: -1 // focused todolist index
+    focusedIdx: null, // focused todolist index
+    theme: [this.props.bulmaTheme] // ["danger","primary",...]
   }
 
   addToDoList = (workName) => {
@@ -35,17 +36,23 @@ class App extends Component {
 
   updateToDoList = (workName, idx) => {
     // this.changeFocusing(idx);
-    if (workName !== this.state.todolists[idx].name) {
+    if (workName === '') {
+      let newState = {...this.state}
+      newState.todolists.splice(idx,1)
+      this.setState({...newState})
+    } else if (workName !== this.state.todolists[idx].name) {
+      console.log(workName)
       let newState = {...this.state}
       newState.todolists[idx].name = workName
       this.setState({...newState})
     }
+    // this.forceUpdate()
   }
 
   addToDoListItem = (listName) => {
     let idx = this.state.focusedIdx;
-    if (idx < 0) {
-      alert("Hey, your todolist is empty!")
+    if (idx === null) {
+      console.log("Hey, your todolist is empty!")
     } else if (listName.length !== 0) {
       let newState = {...this.state};
       let todolistitems ={
@@ -55,15 +62,22 @@ class App extends Component {
       newState.todolists[idx].items.push(todolistitems)
       this.setState({...newState})
     }
+    // this.forceUpdate()
   }
 
   updateToDoListItem = (listName, idx) => {
     let listIdx = this.state.focusedIdx;
-    if (listName !== this.state.todolists[listIdx].items[idx].name) {
+    if (listName === '') {
+      let newState = {...this.state};
+      newState.todolists[listIdx].items.splice(idx,1)
+      this.setState({...newState})
+    }
+    else if (listName !== this.state.todolists[listIdx].items[idx].name) {
       let newState = {...this.state};
       newState.todolists[listIdx].items[idx].name = listName
       this.setState({...newState})
     }
+    // this.forceUpdate()
   }
 
   changeFocusing = (idx) => {
@@ -76,16 +90,18 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Hero className="is-fullheight">
+        <Hero className={`is-fullheight is-${this.state.theme}`}>
           <Hero.Head>
-            <Navbar>
-              <Heading>Reminder Clone</Heading>
+            <Navbar className="navbar">
+              <Container>
+                <h1 className="title has-text-centered" >Reminder Clone</h1>
+              </Container>
             </Navbar>
           </Hero.Head>
           <Hero.Body style={{WebkitAlignItems:"unset",
                              alignItems:"unset"}}>
             <Container className="is-fullhd">
-              <Columns>
+              <Columns style={{height: "80vh"}}>
                 <Columns.Column size="one-quarter">
                   <p>ToDoLists</p>
                   <TodoItems
@@ -96,9 +112,12 @@ class App extends Component {
                   />
                 </Columns.Column>
                 <Columns.Column>
-                  <h2>ToDoListItems</h2>
+                  <h2>ToDoListItems: { (this.state.focusedIdx !== null)
+                    ? this.state.todolists[this.state.focusedIdx].name
+                    : '#'
+                    }</h2>
                   <TodoItems
-                    list={ (this.state.focusedIdx>-1)
+                    list={ (this.state.focusedIdx !== null)
                           ? this.state.todolists[this.state.focusedIdx].items
                           : [] }
                     addfn={this.addToDoListItem}
