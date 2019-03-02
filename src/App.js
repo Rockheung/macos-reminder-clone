@@ -8,10 +8,12 @@ import { Columns,
          Container,
          Hero,
          Navbar,
-         Heading
+         Heading,
+         Box
         } from 'react-bulma-components/full'
 
 import TodoItems from './TodoItems'
+import Searchbar from './Searchbar'
 
 class App extends Component {
   // state = this.props.init;
@@ -51,7 +53,7 @@ class App extends Component {
   addToDoListItem = (listName) => {
     let idx = this.state.focusedIdx;
     if (idx === null) {
-      console.log("Hey, your todolist is empty!")
+      alert("Hey, your todolist is empty!")
     } else if (listName.length !== 0) {
       let newState = {...this.state};
       let todolistitems = {
@@ -97,35 +99,40 @@ class App extends Component {
           <Hero.Head>
             <Navbar className="navbar">
               <Container>
-                <h1 className="title has-text-centered" >Reminder Clone</h1>
+                <h1 className="title has-text-centered has-text-weight-bold" >Reminder Clone</h1>
               </Container>
             </Navbar>
           </Hero.Head>
           <Hero.Body style={{WebkitAlignItems:"unset",
                              alignItems:"unset"}}>
             <Container className="is-fullhd">
-              <Columns style={{height: "80vh"}}>
+              <Columns>
                 <Columns.Column size="one-third">
-                  <p>ToDoLists</p>
-                  <TodoItems
-                    list={this.state.todolists}
-                    focusing={this.changeFocusing}
-                    addfn={this.addToDoList}
-                    updatefn={this.updateToDoList}
-                  />
+                  <Box className="has-background-grey-lighter">
+                    <h2 className="has-text-weight-bold">ToDoLists</h2>
+                    <TodoItems
+                      list={this.state.todolists}
+                      focusing={this.changeFocusing}
+                      addfn={this.addToDoList}
+                      updatefn={this.updateToDoList}
+                    />
+                    <Searchbar/>
+                  </Box>
                 </Columns.Column>
                 <Columns.Column>
-                  <h2>ToDoListItems: { (this.state.focusedIdx !== null)
-                    ? this.state.todolists[this.state.focusedIdx].name
-                    : 'Nothing to do! You\'re free!!'
-                    }</h2>
-                  <TodoItems
-                    list={ (this.state.focusedIdx !== null)
-                          ? this.state.todolists[this.state.focusedIdx].items
-                          : [] }
-                    addfn={this.addToDoListItem}
-                    updatefn={this.updateToDoListItem}
-                  />
+                  <Box>
+                    <h2 className="has-text-weight-bold">ToDoListItems: <span className="has-text-weight-light">{ (this.state.focusedIdx !== null)
+                      ? this.state.todolists[this.state.focusedIdx].name
+                      : 'Nothing to do! You\'re free!!'
+                      }</span></h2>
+                    <TodoItems
+                      list={ (this.state.focusedIdx !== null)
+                            ? this.state.todolists[this.state.focusedIdx].items
+                            : [] }
+                      addfn={this.addToDoListItem}
+                      updatefn={this.updateToDoListItem}
+                    />
+                  </Box>
                 </Columns.Column>
               </Columns>
             </Container>

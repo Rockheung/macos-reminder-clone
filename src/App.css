@@ -17,6 +17,15 @@ div#root ul.input-field {
   margin: 0.5rem;
 }
 
+div#root div.box {
+  height: 80vh;
+}
+
+div#root div.column:first-child div ul.input-field input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  opacity: 1; /* Firefox */
+}
+
+
 .App {
   text-align: center;
 }
